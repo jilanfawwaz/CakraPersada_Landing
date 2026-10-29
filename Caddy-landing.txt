@@ -1,0 +1,21 @@
+# Tambahkan ke /etc/caddy/Caddyfile di server (setelah blok api. dan admin.)
+
+guesthousecakrapersada.com {
+    root * /opt/cakrapersada/web/landing
+    encode gzip
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        Referrer-Policy strict-origin-when-cross-origin
+        Permissions-Policy "camera=(), microphone=(), geolocation=()"
+        Strict-Transport-Security "max-age=31536000"
+        Content-Security-Policy "default-src 'none'; img-src 'self'; style-src 'self'; font-src 'self'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'"
+    }
+    @aset path /img/* /fonts/*
+    header @aset Cache-Control "public, max-age=2592000"
+    file_server
+}
+
+www.guesthousecakrapersada.com {
+    redir https://guesthousecakrapersada.com{uri} permanent
+}
